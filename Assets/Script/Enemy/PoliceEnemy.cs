@@ -8,6 +8,7 @@ public class PoliceEnemy : MonoBehaviour
     [SerializeField] float speed = 10f;
     [SerializeField] Vector3 rightLimit;
     [SerializeField] Vector3 leftLimit;
+    [SerializeField] bool PlayerDetect;
 
     [Header("Check Ground")]
     [SerializeField] Vector2 groundCheckerBoxSize;
@@ -25,22 +26,49 @@ public class PoliceEnemy : MonoBehaviour
 
     void Move()
     {
-        if(transform.position.x == rightLimit.x)
+        if (!PlayerDetect)
+        {
+            PatrolMove();
+        }
+        else
+        {
+            FollowPlayer();
+        }
+    }
+
+    void PatrolMove()
+    {
+        if (transform.position.x == rightLimit.x)
         {
             direction = -1;
         }
-        else if(transform.position == leftLimit)
+        else if (transform.position == leftLimit)
         {
             direction = 1;
         }
 
-        if(direction == -1)
+        if (direction == -1)
         {
             transform.position = Vector3.MoveTowards(transform.position, leftLimit, speed * Time.deltaTime);
         }
-        else if(direction == 1)
+        else if (direction == 1)
         {
             transform.position = Vector3.MoveTowards(transform.position, rightLimit, speed * Time.deltaTime);
+        }
+    }
+
+    void FollowPlayer()
+    {
+        if (PlayerDetect)
+        {
+            if((transform.position.x < rightLimit.x || transform.position.x > leftLimit.x))
+            {
+
+            }
+            else
+            {
+                transform.position = Vector3.MoveTowards(transform.position, Player.instance.transform.position, speed * Time.deltaTime);
+            }
         }
     }
 

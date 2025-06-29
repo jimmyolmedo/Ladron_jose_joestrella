@@ -510,6 +510,7 @@ MonoBehaviour:
   speed: 10
   rightLimit: {x: 2.06, y: -0.59, z: 0}
   leftLimit: {x: 7.33, y: -0.59, z: 0}
+  PlayerDetect: 0
   groundCheckerBoxSize: {x: 0, y: 0}
   groundCheckerCastDistance: 0
   groundLayer:
@@ -810,6 +811,7 @@ GameObject:
   - component: {fileID: 1970930102}
   - component: {fileID: 1970930101}
   - component: {fileID: 1970930106}
+  - component: {fileID: 1970930107}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -829,11 +831,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38d62918bc527b841a16a4445c20b1bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 200
-  maxGroundSpeed: 25
-  maxAirSpeed: 10
+  speed: 150
+  maxGroundSpeed: 7
+  maxAirSpeed: 5
   airControlSpeed: 100
-  deceleration: 10
+  deceleration: 30
   airDeceleration: 5
   acceleration: 10
   airAcceleration: 5
@@ -844,7 +846,7 @@ MonoBehaviour:
   isMoving: 0
   rb: {fileID: 1970930103}
   coyoteTime: 0.7
-  jumpForce: 200
+  jumpForce: 550
   groundLayer:
     serializedVersion: 2
     m_Bits: 16
@@ -901,7 +903,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1113,6 +1115,18 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1970930107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970930100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a41c50ad50a403a4eb78e63b445404f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
