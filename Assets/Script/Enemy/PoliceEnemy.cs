@@ -8,7 +8,6 @@ public class PoliceEnemy : MonoBehaviour
     [SerializeField] float speed = 10f;
     [SerializeField] Vector3 rightLimit;
     [SerializeField] Vector3 leftLimit;
-    [SerializeField] bool PlayerDetect;
 
     [Header("Check Ground")]
     [SerializeField] Vector2 groundCheckerBoxSize;
@@ -26,13 +25,9 @@ public class PoliceEnemy : MonoBehaviour
 
     void Move()
     {
-        if (!PlayerDetect)
+        if (canMove)
         {
             PatrolMove();
-        }
-        else
-        {
-            FollowPlayer();
         }
     }
 
@@ -42,33 +37,28 @@ public class PoliceEnemy : MonoBehaviour
         {
             direction = -1;
         }
-        else if (transform.position == leftLimit)
+        else if (transform.position.x == leftLimit.x)
         {
             direction = 1;
         }
 
         if (direction == -1)
         {
-            transform.position = Vector3.MoveTowards(transform.position, leftLimit, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(leftLimit.x, transform.position.y), speed * Time.deltaTime);
+            transform.localScale = new Vector3(1, 1, 1);
         }
         else if (direction == 1)
         {
-            transform.position = Vector3.MoveTowards(transform.position, rightLimit, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(rightLimit.x, transform.position.y), speed * Time.deltaTime);
+            transform.localScale = new Vector3(-1, 1, 1);
         }
     }
 
-    void FollowPlayer()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (PlayerDetect)
+        if(collision.gameObject.TryGetComponent(out Idamageable damageable))
         {
-            if((transform.position.x < rightLimit.x || transform.position.x > leftLimit.x))
-            {
-
-            }
-            else
-            {
-                transform.position = Vector3.MoveTowards(transform.position, Player.instance.transform.position, speed * Time.deltaTime);
-            }
+            damageable.GetDamage();
         }
     }
 

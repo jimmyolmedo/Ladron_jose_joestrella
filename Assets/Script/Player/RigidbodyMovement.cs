@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class RigidbodyMovement : MonoBehaviour
 {
+    //variables
     [Header("movement")]
     [SerializeField] float speed = 200;
     [SerializeField] float maxGroundSpeed = 25f;
@@ -32,11 +33,10 @@ public class RigidbodyMovement : MonoBehaviour
     [SerializeField] Vector2 groundCheckerBoxSize;
     [SerializeField] float groundCheckerCastDistance;
 
-    //[Header("correccion de esquinas")]
-    //[SerializeField] Transform ray1;
-    //[SerializeField] Transform ray2;
-    //[SerializeField] float rayDistance;
-    //[SerializeField] LayerMask cornerLayer;
+    //properties
+    public bool CanMove { get => canMove; set => canMove = value; }
+
+    //methods
 
     private void Update()
     {
@@ -48,21 +48,6 @@ public class RigidbodyMovement : MonoBehaviour
         {
             coyoteTime += Time.deltaTime;
         }
-
-        ////raycast esquinas
-
-        //RaycastHit2D leftRay = Physics2D.Raycast(ray1.position, Vector2.up, rayDistance, cornerLayer);
-
-        //RaycastHit2D rightRay = Physics2D.Raycast(ray2.position, Vector2.up, rayDistance, cornerLayer);
-
-        //if(leftRay && !rightRay)
-        //{
-        //    transform.position += new Vector3(0.2f, 0);
-        //}
-        //else if(rightRay && !leftRay)
-        //{
-        //    transform.position -= new Vector3(0.2f, 0);
-        //}
     }
 
     void FixedUpdate()
@@ -81,9 +66,8 @@ public class RigidbodyMovement : MonoBehaviour
             {
                 HandleAirMovement();
             }
+            rb.linearVelocity = new Vector2(currentVelocity, rb.linearVelocity.y);
         }
-
-        rb.linearVelocity = new Vector2(currentVelocity, rb.linearVelocity.y);
 
     }
 
@@ -128,6 +112,7 @@ public class RigidbodyMovement : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
+        if (!canMove) { return; }
         Vector2 moveDirection = context.ReadValue<Vector2>();
         moveInput = moveDirection.x;
         if (isGrounded())
@@ -179,7 +164,7 @@ public class RigidbodyMovement : MonoBehaviour
 
     public void disableMovement()
     {
-        currentVelocity = 0;
+        rb.linearVelocity = Vector2.zero;
         canMove = false;
     }
 
